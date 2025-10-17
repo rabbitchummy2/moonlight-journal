@@ -159,16 +159,16 @@ button:hover {
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
 }
 
-/* --- Fade Animation --- */
+/* --- ⚡ Faster Fade Animation --- */
 #feedback {
   opacity: 0;
-  transition: opacity 1.6s ease, text-shadow 1.6s ease;
+  transition: opacity 0.7s ease, text-shadow 0.7s ease;
   text-shadow: 0 0 0px rgba(255,255,255,0);
 }
 
 #feedback.show {
   opacity: 1;
-  text-shadow: 0 0 8px rgba(255,255,255,0.3);
+  text-shadow: 0 0 10px rgba(255,255,255,0.35);
 }
 
 /* --- 📱 MOBILE OPTIMIZATION --- */
@@ -191,8 +191,9 @@ button:hover {
     height: 130px;
     margin-bottom: 16px;
     box-shadow:
-      0 0 70px rgba(255, 255, 255, 0.6),
-      0 0 140px rgba(200, 220, 255, 0.4);
+      0 0 80px rgba(255, 255, 255, 0.7),
+      0 0 160px rgba(200, 220, 255, 0.5);
+    transition: box-shadow 0.7s ease;
   }
 
   .title { font-size: 26px; }
@@ -216,6 +217,7 @@ button:hover {
   #feedback {
     font-size: 14px;
     margin-top: 10px;
+    transition: opacity 0.6s ease, text-shadow 0.6s ease; /* ⚡ faster on mobile */
   }
 }
 
