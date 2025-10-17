@@ -108,90 +108,93 @@ const responses = {
   ]
 };
 
-// === Stronger, brighter, and more distinct color palette ===
+// === Bright, high-contrast mobile color palette ===
 const moodColors = {
-  happy: ["#ffe066", "#ff66c4"],     // radiant gold + vivid pink
-  sad: ["#0033cc", "#000066"],       // deep navy blue + midnight blue (darker, melancholic)
-  angry: ["#ff3333", "#ff8c00"],     // intense red + orange glow
-  anxious: ["#00e5ff", "#0044ff"],   // bright cyan + strong electric blue
-  unsure: ["#b066ff", "#ff80ff"],    // violet + rose
-  love: ["#ff4081", "#ff1744"],      // vivid pink + romantic red
-  hate: ["#660000", "#ff3300"],      // dark crimson + fiery orange
-  fear: ["#2233ff", "#000044"],      // twilight blue + near-black
-  lonely: ["#5a4bcc", "#2a0055"],    // lavender + deep indigo
-  reflective: ["#d1d1ff", "#a0b8ff"],// soft white-blue + icy blue
-  inspired: ["#00ffcc", "#9900ff"],  // neon mint + purple glow
-  neutral: ["#d0d0ff", "#a0e4ff"]    // gentle moonlight base
+  happy: ["#fff066", "#ff33b8"],      // bright lemon + hot pink
+  sad: ["#1a75ff", "#33ccff"],        // deep blue + cyan edge
+  angry: ["#ff0000", "#ffaa00"],      // red core + amber
+  anxious: ["#00ffff", "#0055ff"],    // neon cyan + vivid blue
+  unsure: ["#c266ff", "#ff80ff"],     // violet + magenta
+  love: ["#ff66aa", "#ff0033"],       // warm pink + bright red
+  hate: ["#990000", "#ff3300"],       // blood red + orange
+  fear: ["#3366ff", "#000099"],       // electric blue + dark royal
+  lonely: ["#7a5cff", "#330066"],     // lavender + indigo
+  reflective: ["#e6e9ff", "#a0c4ff"], // moon silver + sky blue
+  inspired: ["#33ffe0", "#cc00ff"],   // mint teal + neon violet
+  neutral: ["#d6d6ff", "#99e0ff"]     // soft moonlight base
 };
 
-// === Initial soft moon glow ===
+// === Initial glow ===
 moonEl.style.animation = "none";
-moonEl.style.boxShadow = "0 0 90px rgba(255,255,255,0.6), 0 0 160px rgba(255,255,255,0.4)";
+moonEl.style.boxShadow =
+  "0 0 120px rgba(255,255,255,0.8), 0 0 240px rgba(255,255,255,0.6)";
 moonEl.style.transition = "box-shadow 2s ease";
 
-// === Helper: Smoothly transition the moon glow ===
+// === Glow transition ===
 function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 5000) {
   let step = 0;
-  const steps = duration / 40;
+  const steps = duration / 30;
   const [from1, from2] = fromColors;
   const [to1, to2] = toColors;
 
   const interval = setInterval(() => {
     step++;
     const blend = step / steps;
+
     const mix = (c1, c2) => {
-      const r = parseInt(c1.slice(1, 3), 16) * (1 - blend) + parseInt(c2.slice(1, 3), 16) * blend;
-      const g = parseInt(c1.slice(3, 5), 16) * (1 - blend) + parseInt(c2.slice(3, 5), 16) * blend;
-      const b = parseInt(c1.slice(5, 7), 16) * (1 - blend) + parseInt(c2.slice(5, 7), 16) * blend;
-      return `rgb(${r}, ${g}, ${b})`;
+      const r = parseInt(c1.slice(1,3),16)*(1-blend)+parseInt(c2.slice(1,3),16)*blend;
+      const g = parseInt(c1.slice(3,5),16)*(1-blend)+parseInt(c2.slice(3,5),16)*blend;
+      const b = parseInt(c1.slice(5,7),16)*(1-blend)+parseInt(c2.slice(5,7),16)*blend;
+      return `rgb(${r},${g},${b})`;
     };
 
-    const glow1 = mix(from1, to1);
-    const glow2 = mix(from2, to2);
-    const size = 120 + blend * 160 * intensity; // larger for more brightness on mobile
+    const glow1 = mix(from1,to1);
+    const glow2 = mix(from2,to2);
+
+    const screenBoost = window.innerWidth < 768 ? 1.7 : 1;
+    const size = (130 + blend * 180 * intensity) * screenBoost;
 
     moonEl.style.boxShadow = `
-      0 0 ${size}px ${glow1},
+      0 0 ${size}px rgba(255,255,255,0.3),
+      0 0 ${size * 1.2}px ${glow1},
       0 0 ${size * 1.8}px ${glow2}
     `;
 
     if (step >= steps) clearInterval(interval);
-  }, 40);
+  }, 30);
 }
 
-// === Expanded mood dictionary (unchanged) ===
+// === Mood dictionary ===
 const moods = {
-  happy: ["happy", "joy", "joyful", "excited", "grateful", "smile", "peaceful", "great", "content", "delighted", "cheerful", "ecstatic", "calm", "radiant", "serene", "hopeful", "playful", "bright", "satisfied", "uplifted", "thankful"],
-  sad: ["sad", "down", "lonely", "hurt", "cry", "heartbroken", "tired", "blue", "depressed", "melancholy", "weary", "sorrow", "pain", "loss", "defeated", "tearful", "aching", "hopeless", "heavy", "empty"],
-  angry: ["angry", "mad", "furious", "hate", "annoyed", "rage", "frustrated", "irritated", "bitter", "resentful", "outraged", "hostile", "offended", "boiling", "snapping", "displeased"],
-  anxious: ["anxious", "nervous", "worried", "stressed", "tense", "panic", "uneasy", "fearful", "overwhelmed", "restless", "jittery", "doubtful", "concerned", "unsettled", "fidgety", "trembling"],
-  unsure: ["unsure", "confused", "lost", "uncertain", "iffy", "hesitant", "indecisive", "mixed", "puzzled", "unclear", "ambivalent", "blurred", "stuck"],
-  love: ["love", "adore", "cherish", "affection", "romance", "heart", "fond", "devotion", "care", "admire", "infatuated", "compassion", "intimacy", "warm", "longing", "passion", "softness"],
-  hate: ["hate", "dislike", "resent", "anger", "furious", "disgust", "detest", "loathe", "spiteful", "enraged", "vindictive", "contempt", "irate"],
-  fear: ["fear", "afraid", "terrified", "scared", "nervous", "worried", "shaken", "uneasy", "startled", "timid", "apprehensive", "dread", "horrified", "spooked"],
-  lonely: ["alone", "lonely", "isolated", "empty", "abandoned", "forgotten", "secluded", "disconnected", "apart", "quiet", "detached", "forsaken", "invisible"],
-  reflective: ["thinking", "remember", "ponder", "reflect", "quiet", "meditate", "recall", "nostalgic", "consider", "contemplate", "wonder", "daydream", "evaluate", "analyze"],
-  inspired: ["dream", "hope", "create", "idea", "inspire", "motivated", "driven", "ambitious", "curious", "inventive", "energized", "aspire", "vision", "spark", "innovate"]
+  happy: ["happy","joy","joyful","excited","grateful","smile","peaceful","great","content","delighted","cheerful","ecstatic","calm","radiant","serene","hopeful","playful","bright","satisfied","uplifted","thankful"],
+  sad: ["sad","down","lonely","hurt","cry","heartbroken","tired","blue","depressed","melancholy","weary","sorrow","pain","loss","defeated","tearful","aching","hopeless","heavy","empty"],
+  angry: ["angry","mad","furious","hate","annoyed","rage","frustrated","irritated","bitter","resentful","outraged","hostile","offended","boiling","snapping","displeased"],
+  anxious: ["anxious","nervous","worried","stressed","tense","panic","uneasy","fearful","overwhelmed","restless","jittery","doubtful","concerned","unsettled","fidgety","trembling"],
+  unsure: ["unsure","confused","lost","uncertain","iffy","hesitant","indecisive","mixed","puzzled","unclear","ambivalent","blurred","stuck"],
+  love: ["love","adore","cherish","affection","romance","heart","fond","devotion","care","admire","infatuated","compassion","intimacy","warm","longing","passion","softness"],
+  hate: ["hate","dislike","resent","anger","furious","disgust","detest","loathe","spiteful","enraged","vindictive","contempt","irate"],
+  fear: ["fear","afraid","terrified","scared","nervous","worried","shaken","uneasy","startled","timid","apprehensive","dread","horrified","spooked"],
+  lonely: ["alone","lonely","isolated","empty","abandoned","forgotten","secluded","disconnected","apart","quiet","detached","forsaken","invisible"],
+  reflective: ["thinking","remember","ponder","reflect","quiet","meditate","recall","nostalgic","consider","contemplate","wonder","daydream","evaluate","analyze"],
+  inspired: ["dream","hope","create","idea","inspire","motivated","driven","ambitious","curious","inventive","energized","aspire","vision","spark","innovate"]
 };
 
-// === Smarter Mood Detection ===
+// === Mood detection ===
 function detectMood(text) {
   const t = text.toLowerCase();
   let counts = {};
-  for (const mood in moods) {
-    counts[mood] = moods[mood].reduce((sum, w) => sum + (t.includes(w) ? 1 : 0), 0);
-  }
+  for (const mood in moods)
+    counts[mood] = moods[mood].reduce((s,w)=>s+(t.includes(w)?1:0),0);
 
-  const strongIntensityWords = ["very", "so", "really", "super", "extremely", "deeply", "completely"];
-  const mildIntensityWords = ["a bit", "slightly", "kind of", "somewhat", "partly"];
+  const strong = ["very","so","really","super","extremely","deeply","completely"];
+  const mild = ["a bit","slightly","kind of","somewhat","partly"];
   let intensity = 1;
-  for (const w of strongIntensityWords) if (t.includes(w)) intensity = 1.5;
-  for (const w of mildIntensityWords) if (t.includes(w)) intensity = 0.8;
+  for (const w of strong) if (t.includes(w)) intensity = 1.6;
+  for (const w of mild) if (t.includes(w)) intensity = 0.8;
 
-  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  const [mood, score] = sorted[0];
-  if (score === 0) return { mood: "neutral", intensity };
-  return { mood, intensity };
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const [mood,score] = sorted[0];
+  return score===0?{mood:"neutral",intensity}:{mood,intensity};
 }
 
 // === Handle journal submission ===
@@ -202,31 +205,25 @@ btn.addEventListener('click', () => {
     return;
   }
 
-  const moodInfo = detectMood(entry);
-  const sentiment = moodInfo.mood || "neutral";
-  const intensity = moodInfo.intensity || 1;
-
+  const { mood:sentiment, intensity } = detectMood(entry);
   const toColors = moodColors[sentiment] || moodColors.neutral;
   const fromColors = ["#ffffff", "#ccccff"];
-  smoothGlowTransition(fromColors, toColors, intensity, 7000);
+  smoothGlowTransition(fromColors,toColors,intensity,6000);
 
   const msgs = responses[sentiment] || responses.unsure;
-  const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
-
   feedbackEl.classList.remove("show");
   void feedbackEl.offsetWidth;
-  feedbackEl.textContent = randomMsg;
-  setTimeout(() => feedbackEl.classList.add("show"), 50);
+  feedbackEl.textContent = msgs[Math.floor(Math.random()*msgs.length)];
+  setTimeout(()=>feedbackEl.classList.add("show"),50);
 
   entryEl.value = "";
 
-  // 🌙 Fade back to neutral 30 seconds later with a slow dim
-  setTimeout(() => {
-    smoothGlowTransition(toColors, moodColors.neutral, 0.8, 9000);
-  }, 30000);
+  setTimeout(()=>{
+    smoothGlowTransition(toColors,moodColors.neutral,0.9,10000);
+  },30000);
 });
 
-// === Dynamic starfield ===
+// === Starfield ===
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [], shootingStars = [];
@@ -240,7 +237,7 @@ function resize() {
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 }
 
-function rand(min, max) { return Math.random() * (max - min) + min; }
+function rand(min,max){return Math.random()*(max-min)+min;}
 
 function makeStars() {
   stars = [];
@@ -266,7 +263,7 @@ function draw() {
     ctx.beginPath();
     ctx.fillStyle = `hsla(${s.hue}, 100%, 85%, ${alpha})`;
     ctx.shadowColor = `hsla(${s.hue}, 100%, 75%, ${alpha * 2})`;
-    ctx.shadowBlur = 18 + 10 * Math.sin(t * 3 + s.x);
+    ctx.shadowBlur = 20 + 10 * Math.sin(t * 3 + s.x);
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fill();
   }
@@ -308,6 +305,4 @@ window.addEventListener('orientationchange', () => {
 resize();
 makeStars();
 draw();
-
-
 
