@@ -150,6 +150,11 @@ btn.addEventListener('click', () => {
   setTimeout(() => feedbackEl.classList.add("show"), 50);
 
   entryEl.value = "";
+
+  // 🌙 Fade back to neutral 15 seconds later
+  setTimeout(() => {
+    smoothGlowTransition(toColors, moodColors.neutral, 0.8);
+  }, 15000);
 });
 
 // === Dynamic starfield with twinkling + shooting stars ===
@@ -237,5 +242,6 @@ window.addEventListener('orientationchange', () => {
 resize();
 makeStars();
 draw();
+
 
 
