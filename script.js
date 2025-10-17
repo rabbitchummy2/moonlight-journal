@@ -1,4 +1,4 @@
-const entryEl = document.getElementById('entry'); 
+const entryEl = document.getElementById('entry');
 const moonEl = document.getElementById('moon');
 const feedbackEl = document.getElementById('feedback');
 const btn = document.getElementById('submit');
@@ -9,37 +9,119 @@ const responses = {
     "The moon smiles with you tonight :)",
     "Your light makes the stars jealous ✨",
     "The moon glows brighter because of you 🌙",
+    "The night feels alive with your joy.",
+    "Even the stars seem to dance tonight.",
+    "Happiness hums softly in the moonlight.",
+    "You bring warmth even to the dark sky.",
+    "The moon reflects your calm glow."
   ],
   sad: [
     "Everything will be alright, the moon’s still here for you 💙",
     "Even the stars rest on cloudy nights 🌧",
     "Your heart will find calm again 💫",
+    "The night holds your tears gently.",
+    "The moon doesn’t rush your healing.",
+    "There’s beauty even in quiet sadness.",
+    "The stars dim a little, just to keep you company.",
+    "You are allowed to rest in the silence."
   ],
   angry: [
     "Let the night cool your fire 🔥",
     "The moon’s soft light forgives every storm",
     "You’re safe to let it go now 💨",
+    "The stars will wait until your storm has passed.",
+    "Anger burns, but the night endures it softly.",
+    "Even the moon once knew fire before it learned peace.",
+    "The world quiets, waiting for you to breathe again."
   ],
   anxious: [
     "Relax, the moon’s holding you 🌙",
     "You can rest here for a while",
     "The night is patient, so you can be too",
+    "Breathe; even the stars shimmer when they’re unsure.",
+    "You don’t have to hold everything together right now.",
+    "The stillness doesn’t demand anything from you.",
+    "Even the moon wanes and waxes—it’s okay to shift."
   ],
   unsure: [
     "You’re doing better than you think 💫",
     "Trust your heart, it knows more than fear 🌙",
     "The moon believes in you",
+    "Uncertainty is just the beginning of discovery.",
+    "It’s okay to wander for a while.",
+    "The stars don’t always know where they’re going either.",
+    "Not knowing can still be beautiful."
+  ],
+  love: [
+    "The moon blushes in your warmth.",
+    "Love hums quietly through the air.",
+    "Even the stars envy what you feel tonight.",
+    "The night glows softly around your heart.",
+    "The moon bends its light just for you.",
+    "Love doesn’t need to speak when it can shine.",
+    "Your tenderness fills the sky."
+  ],
+  hate: [
+    "The moon will not take sides, only listen.",
+    "Even rage fades beneath the stars.",
+    "Your heart deserves peace more than anger.",
+    "Let the night hold your sharp edges until they dull.",
+    "Even fire needs rest.",
+    "Hatred burns bright but dies fast; calm lasts longer.",
+    "The sky listens, but it does not burn back."
+  ],
+  fear: [
+    "The night is vast, but so are you.",
+    "Fear only means your heart is alive.",
+    "The moon lights a path even in the darkest hour.",
+    "You’ve already survived so much.",
+    "The shadows are smaller than you think.",
+    "The dark doesn’t win when you keep walking.",
+    "You are made of the same light that fills the stars."
+  ],
+  lonely: [
+    "The moon knows loneliness well.",
+    "Even when you’re alone, you are seen.",
+    "The silence of the night is not empty—it’s listening.",
+    "Someone, somewhere, is looking at this same moon.",
+    "You’re never truly alone beneath this sky.",
+    "The night keeps company in its own quiet way.",
+    "Loneliness fades where patience grows."
+  ],
+  reflective: [
+    "The moon reflects what you carry within.",
+    "Stillness brings clarity, not absence.",
+    "The night listens without judgment.",
+    "Every thought ripples softly in the dark.",
+    "Reflection is the moon’s favorite language.",
+    "The stars are memories, waiting for your thoughts.",
+    "You’re growing in the quiet places."
+  ],
+  inspired: [
+    "The night is your canvas, paint something new.",
+    "The moonlight sharpens dreams once blurry.",
+    "You carry ideas even the stars wonder at.",
+    "The universe hums with your energy tonight.",
+    "Inspiration drifts like starlight—follow where it lands.",
+    "Your thoughts shimmer with potential.",
+    "Creation begins where silence ends."
   ]
 };
 
-// === Stronger Color palette for moon by mood ===
+// === Stronger, longer-lasting color palette ===
 const moodColors = {
-  happy: ["#ffb347", "#ff66c4"],     // warm amber + vivid pink
-  sad: ["#4f9dff", "#7c4dff"],       // deep blue + purple
-  angry: ["#ff4b4b", "#ff8c42"],     // intense red + fiery orange
-  anxious: ["#00e5ff", "#007bff"],   // bright cyan + electric blue
-  unsure: ["#b066ff", "#e86fff"],    // strong violet + magenta
-  neutral: ["#c6c6ff", "#a0d8ff"]    // brighter soft neutrals
+  happy: ["#ffcf33", "#ff66c4"],     // radiant gold + bright pink
+  sad: ["#2f6eff", "#7c4dff"],       // deep ocean + indigo
+  angry: ["#ff3333", "#ff8c00"],     // intense red + orange glow
+  anxious: ["#00d4ff", "#0066ff"],   // turquoise + deep blue
+  unsure: ["#b066ff", "#ff80ff"],    // violet + rose
+  love: ["#ff4081", "#ff1744"],      // vivid pink + romantic red
+  hate: ["#7a0000", "#ff4500"],      // dark maroon + ember orange
+  fear: ["#304ffe", "#1a237e"],      // twilight blue + navy
+  lonely: ["#6a5acd", "#4b0082"],    // lavender + indigo
+  reflective: ["#e0e0e0", "#9eb6ff"],// moon silver + pale blue
+  inspired: ["#00ffcc", "#cc00ff"],  // mint teal + neon violet
+  neutral: ["#c6c6ff", "#a0d8ff"]    // gentle moonlight base
 };
 
 // === Initial soft moon glow ===
@@ -48,9 +130,9 @@ moonEl.style.boxShadow = "0 0 60px rgba(255,255,255,0.4), 0 0 120px rgba(255,255
 moonEl.style.transition = "box-shadow 2s ease";
 
 // === Helper: Smoothly transition the moon glow ===
-function smoothGlowTransition(fromColors, toColors, intensity = 1) {
+function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 5000) {
   let step = 0;
-  const steps = 40;
+  const steps = duration / 40;
   const [from1, from2] = fromColors;
   const [to1, to2] = toColors;
 
@@ -66,7 +148,7 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1) {
 
     const glow1 = mix(from1, to1);
     const glow2 = mix(from2, to2);
-    const size = 90 + blend * 100 * intensity;
+    const size = 90 + blend * 120 * intensity;
 
     moonEl.style.boxShadow = `
       0 0 ${size}px ${glow1},
@@ -77,52 +159,39 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1) {
   }, 40);
 }
 
+// === Expanded mood dictionary ===
+const moods = {
+  happy: ["happy", "joy", "joyful", "excited", "grateful", "smile", "peaceful", "great", "content", "delighted", "cheerful", "ecstatic", "calm", "radiant", "serene", "hopeful", "playful", "bright", "satisfied", "uplifted", "thankful"],
+  sad: ["sad", "down", "lonely", "hurt", "cry", "heartbroken", "tired", "blue", "depressed", "melancholy", "weary", "sorrow", "pain", "loss", "defeated", "tearful", "aching", "hopeless", "heavy", "empty"],
+  angry: ["angry", "mad", "furious", "hate", "annoyed", "rage", "frustrated", "irritated", "bitter", "resentful", "outraged", "hostile", "offended", "boiling", "snapping", "displeased"],
+  anxious: ["anxious", "nervous", "worried", "stressed", "tense", "panic", "uneasy", "fearful", "overwhelmed", "restless", "jittery", "doubtful", "concerned", "unsettled", "fidgety", "trembling"],
+  unsure: ["unsure", "confused", "lost", "uncertain", "iffy", "hesitant", "indecisive", "mixed", "puzzled", "unclear", "ambivalent", "blurred", "stuck"],
+  love: ["love", "adore", "cherish", "affection", "romance", "heart", "fond", "devotion", "care", "admire", "infatuated", "compassion", "intimacy", "warm", "longing", "passion", "softness"],
+  hate: ["hate", "dislike", "resent", "anger", "furious", "disgust", "detest", "loathe", "spiteful", "enraged", "vindictive", "contempt", "irate"],
+  fear: ["fear", "afraid", "terrified", "scared", "nervous", "worried", "shaken", "uneasy", "startled", "timid", "apprehensive", "dread", "horrified", "spooked"],
+  lonely: ["alone", "lonely", "isolated", "empty", "abandoned", "forgotten", "secluded", "disconnected", "apart", "quiet", "detached", "forsaken", "invisible"],
+  reflective: ["thinking", "remember", "ponder", "reflect", "quiet", "meditate", "recall", "nostalgic", "consider", "contemplate", "wonder", "daydream", "evaluate", "analyze"],
+  inspired: ["dream", "hope", "create", "idea", "inspire", "motivated", "driven", "ambitious", "curious", "inventive", "energized", "aspire", "vision", "spark", "innovate"]
+};
+
 // === Smarter Mood Detection ===
 function detectMood(text) {
   const t = text.toLowerCase();
-
-  const happyWords = [
-    "happy", "joy", "excited", "grateful", "calm", "peaceful", "smile", "loved",
-    "good", "great", "wonderful", "nice", "beautiful", "content", "thankful", "joyful", "pleasant"
-  ];
-  const sadWords = [
-    "sad", "down", "lonely", "cry", "hurt", "upset", "depressed", "empty",
-    "unhappy", "heartbroken", "bad", "pain", "tired", "exhausted"
-  ];
-  const angryWords = [
-    "angry", "mad", "furious", "irritated", "frustrated", "annoyed", "rage", "upset", "hate"
-  ];
-  const anxiousWords = [
-    "anxious", "nervous", "worried", "stressed", "uneasy", "tense", "panic", "afraid", "scared"
-  ];
-  const unsureWords = [
-    "unsure", "confused", "lost", "mixed", "uncertain", "don't know", "don’t know", "iffy"
-  ];
-
-  let counts = { happy: 0, sad: 0, angry: 0, anxious: 0, unsure: 0 };
-  for (const w of happyWords) if (t.includes(w)) counts.happy++;
-  for (const w of sadWords) if (t.includes(w)) counts.sad++;
-  for (const w of angryWords) if (t.includes(w)) counts.angry++;
-  for (const w of anxiousWords) if (t.includes(w)) counts.anxious++;
-  for (const w of unsureWords) if (t.includes(w)) counts.unsure++;
-
-  const strongIntensityWords = ["very", "so", "really", "super", "extremely"];
-  const mildIntensityWords = ["a bit", "slightly", "kind of", "somewhat"];
-  let intensity = 1;
-  for (const w of strongIntensityWords) if (t.includes(w)) intensity = 1.4;
-  for (const w of mildIntensityWords) if (t.includes(w)) intensity = 0.7;
-
-  const totalHits = Object.values(counts).reduce((a, b) => a + b, 0);
-  if (totalHits === 0) return { mood: "neutral", intensity };
-
-  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  const [topEmotion, topScore] = sorted[0];
-  const [secondEmotion, secondScore] = sorted[1] || ["neutral", 0];
-  if (topScore >= secondScore * 1.5 || secondScore === 0) {
-    return { mood: topEmotion, intensity };
+  let counts = {};
+  for (const mood in moods) {
+    counts[mood] = moods[mood].reduce((sum, w) => sum + (t.includes(w) ? 1 : 0), 0);
   }
 
-  return { mood: "unsure", intensity };
+  const strongIntensityWords = ["very", "so", "really", "super", "extremely", "deeply", "completely"];
+  const mildIntensityWords = ["a bit", "slightly", "kind of", "somewhat", "partly"];
+  let intensity = 1;
+  for (const w of strongIntensityWords) if (t.includes(w)) intensity = 1.5;
+  for (const w of mildIntensityWords) if (t.includes(w)) intensity = 0.8;
+
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const [mood, score] = sorted[0];
+  if (score === 0) return { mood: "neutral", intensity };
+  return { mood, intensity };
 }
 
 // === Handle journal submission ===
@@ -139,7 +208,7 @@ btn.addEventListener('click', () => {
 
   const toColors = moodColors[sentiment] || moodColors.neutral;
   const fromColors = ["#ffffff", "#ccccff"];
-  smoothGlowTransition(fromColors, toColors, intensity);
+  smoothGlowTransition(fromColors, toColors, intensity, 6000);
 
   const msgs = responses[sentiment] || responses.unsure;
   const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
@@ -151,10 +220,10 @@ btn.addEventListener('click', () => {
 
   entryEl.value = "";
 
-  // 🌙 Fade back to neutral 15 seconds later
+  // 🌙 Fade back to neutral 30 seconds later with a slow dim
   setTimeout(() => {
-    smoothGlowTransition(toColors, moodColors.neutral, 0.8);
-  }, 15000);
+    smoothGlowTransition(toColors, moodColors.neutral, 0.6, 7000);
+  }, 30000);
 });
 
 // === Dynamic starfield with twinkling + shooting stars ===
@@ -191,7 +260,6 @@ function draw() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   const t = performance.now() / 1000;
 
-  // Twinkling stars
   for (const s of stars) {
     const flicker = 0.5 + 0.5 * Math.sin(t * s.twinkleSpeed + s.x);
     const alpha = s.baseAlpha * flicker;
@@ -203,7 +271,6 @@ function draw() {
     ctx.fill();
   }
 
-  // Shooting stars
   if (Math.random() < SHOOT_CHANCE) {
     shootingStars.push({
       x: rand(0, innerWidth),
