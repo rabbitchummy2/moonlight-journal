@@ -110,24 +110,30 @@ const responses = {
 
 // === High-contrast unified color palette ===
 const moodColors = {
-  happy: ["#ffe066", "#ff33b8"],      // bright gold + hot pink
-  sad: ["#0047ff", "#0088ff"],        // deeper glowing blue
-  angry: ["#ff0000", "#ff8000"],      // red + orange
-  anxious: ["#00ffff", "#0077ff"],    // neon cyan + electric blue
-  unsure: ["#c266ff", "#ff80ff"],     // violet + magenta
-  love: ["#ff4da6", "#ff0055"],       // romantic pink + deep red
-  hate: ["#800000", "#ff3300"],       // dark red + orange-red
-  fear: ["#224aff", "#001060"],       // strong electric blue core
-  lonely: ["#8266ff", "#2a0066"],     // purple-indigo mix
-  reflective: ["#a8caff", "#6f9cff"], // moonlit blue
-  inspired: ["#33ffe0", "#b300ff"],   // teal + neon violet
-  neutral: ["#d6d6ff", "#99e0ff"]     // calm soft base
+  happy: ["#ffe066", "#ff33b8"],
+  sad: ["#0047ff", "#0088ff"],
+  angry: ["#ff0000", "#ff8000"],
+  anxious: ["#00ffff", "#0077ff"],
+  unsure: ["#c266ff", "#ff80ff"],
+  love: ["#ff4da6", "#ff0055"],
+  hate: ["#800000", "#ff3300"],
+  fear: ["#224aff", "#001060"],
+  lonely: ["#8266ff", "#2a0066"],
+  reflective: ["#a8caff", "#6f9cff"],
+  inspired: ["#33ffe0", "#b300ff"],
+  neutral: ["#d6d6ff", "#99e0ff"]
 };
+
+// === Mobile adaptive boost ===
+const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const glowBoost = isMobile ? 1.8 : 1.0; // Increase brightness on iOS/Android
+const alphaBoost = isMobile ? 1.3 : 1.0;
 
 // === Initial glow ===
 moonEl.style.animation = "none";
 moonEl.style.boxShadow =
-  "0 0 120px rgba(255,255,255,0.8), 0 0 240px rgba(255,255,255,0.6)";
+  `0 0 ${120 * glowBoost}px rgba(255,255,255,${0.8 * alphaBoost}),
+   0 0 ${240 * glowBoost}px rgba(255,255,255,${0.6 * alphaBoost})`;
 moonEl.style.transition = "box-shadow 2s ease";
 
 // === Glow transition ===
@@ -150,10 +156,10 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 50
 
     const glow1 = mix(from1,to1);
     const glow2 = mix(from2,to2);
-    const size = 130 + blend * 180 * intensity;
+    const size = (130 + blend * 180 * intensity) * glowBoost;
 
     moonEl.style.boxShadow = `
-      0 0 ${size}px rgba(255,255,255,0.3),
+      0 0 ${size}px rgba(255,255,255,${0.3 * alphaBoost}),
       0 0 ${size * 1.2}px ${glow1},
       0 0 ${size * 1.8}px ${glow2}
     `;
@@ -225,7 +231,7 @@ btn.addEventListener('click', () => {
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [], shootingStars = [];
-const STAR_COUNT = 250;
+const STAR_COUNT = isMobile ? 180 : 250; // fewer on mobile for perf but larger glow
 const SHOOT_CHANCE = 0.008;
 const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -243,9 +249,9 @@ function makeStars() {
     stars.push({
       x: rand(0, innerWidth),
       y: rand(0, innerHeight),
-      r: rand(0.8, 2.6),
+      r: rand(1.2, 3.0) * glowBoost,
       twinkleSpeed: rand(1, 3),
-      baseAlpha: rand(0.5, 1),
+      baseAlpha: rand(0.6, 1) * alphaBoost,
       hue: rand(180, 320)
     });
   }
@@ -261,7 +267,7 @@ function draw() {
     ctx.beginPath();
     ctx.fillStyle = `hsla(${s.hue}, 100%, 85%, ${alpha})`;
     ctx.shadowColor = `hsla(${s.hue}, 100%, 75%, ${alpha * 2})`;
-    ctx.shadowBlur = 20 + 10 * Math.sin(t * 3 + s.x);
+    ctx.shadowBlur = (20 + 10 * Math.sin(t * 3 + s.x)) * glowBoost;
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fill();
   }
@@ -284,7 +290,7 @@ function draw() {
     s.life++;
     const fade = 1 - s.life / 35;
     ctx.strokeStyle = `hsla(${s.hue}, 100%, 85%, ${fade})`;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * glowBoost;
     ctx.beginPath();
     ctx.moveTo(s.x, s.y);
     ctx.lineTo(s.x - s.len, s.y - s.len * 0.3);
@@ -303,4 +309,5 @@ window.addEventListener('orientationchange', () => {
 resize();
 makeStars();
 draw();
+
 
