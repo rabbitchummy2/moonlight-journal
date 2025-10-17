@@ -1,4 +1,4 @@
-const entryEl = document.getElementById('entry');
+const entryEl = document.getElementById('entry'); 
 const moonEl = document.getElementById('moon');
 const feedbackEl = document.getElementById('feedback');
 const btn = document.getElementById('submit');
@@ -9,192 +9,120 @@ const responses = {
     "The moon smiles with you tonight :)",
     "Your light makes the stars jealous ✨",
     "The moon glows brighter because of you 🌙",
-    "The night feels alive with your joy.",
-    "Even the stars seem to dance tonight.",
-    "Happiness hums softly in the moonlight.",
-    "You bring warmth even to the dark sky.",
-    "The moon reflects your calm glow."
   ],
   sad: [
     "Everything will be alright, the moon’s still here for you 💙",
     "Even the stars rest on cloudy nights 🌧",
     "Your heart will find calm again 💫",
-    "The night holds your tears gently.",
-    "The moon doesn’t rush your healing.",
-    "There’s beauty even in quiet sadness.",
-    "The stars dim a little, just to keep you company.",
-    "You are allowed to rest in the silence."
   ],
   angry: [
     "Let the night cool your fire 🔥",
     "The moon’s soft light forgives every storm",
     "You’re safe to let it go now 💨",
-    "The stars will wait until your storm has passed.",
-    "Anger burns, but the night endures it softly.",
-    "Even the moon once knew fire before it learned peace.",
-    "The world quiets, waiting for you to breathe again."
   ],
   anxious: [
     "Relax, the moon’s holding you 🌙",
     "You can rest here for a while",
     "The night is patient, so you can be too",
-    "Breathe, even the stars shimmer when they’re unsure.",
-    "You don’t have to hold everything together right now.",
-    "The stillness doesn’t demand anything from you.",
-    "Even the moon wanes and waxes—it’s okay to shift."
   ],
   unsure: [
     "You’re doing better than you think 💫",
     "Trust your heart, it knows more than fear 🌙",
     "The moon believes in you",
-    "Uncertainty is just the beginning of discovery.",
-    "It’s okay to wander for a while.",
-    "The stars don’t always know where they’re going either.",
-    "Not knowing can still be beautiful."
-  ],
-  love: [
-    "The moon blushes in your warmth.",
-    "Love hums quietly through the air.",
-    "Even the stars envy what you feel tonight.",
-    "The night glows softly around your heart.",
-    "The moon bends its light just for you.",
-    "Love doesn’t need to speak when it can shine.",
-    "Your tenderness fills the sky."
-  ],
-  hate: [
-    "The moon will not take sides, only listen.",
-    "Even rage fades beneath the stars.",
-    "Your heart deserves peace more than anger.",
-    "Let the night hold your sharp edges until they dull.",
-    "Even fire needs rest.",
-    "Hatred burns bright but dies fast; calm lasts longer.",
-    "The sky listens, but it does not burn back."
-  ],
-  fear: [
-    "The night is vast, but so are you.",
-    "Fear only means your heart is alive.",
-    "The moon lights a path even in the darkest hour.",
-    "You’ve already survived so much.",
-    "The shadows are smaller than you think.",
-    "The dark doesn’t win when you keep walking.",
-    "You are made of the same light that fills the stars."
-  ],
-  lonely: [
-    "The moon knows loneliness well.",
-    "Even when you’re alone, you are seen.",
-    "The silence of the night is not empty; it’s listening.",
-    "Someone, somewhere, is looking at this same moon.",
-    "You’re never truly alone beneath this sky.",
-    "The night keeps company in its own quiet way.",
-    "Loneliness fades where patience grows."
-  ],
-  reflective: [
-    "The moon reflects what you carry within.",
-    "Stillness brings clarity, not absence.",
-    "The night listens without judgment.",
-    "Every thought ripples softly in the dark.",
-    "Reflection is the moon’s favorite language.",
-    "The stars are memories, waiting for your thoughts.",
-    "You’re growing in the quiet places."
-  ],
-  inspired: [
-    "The night is your canvas, paint something new.",
-    "The moonlight sharpens dreams once blurry.",
-    "You carry ideas even the stars wonder at.",
-    "The universe hums with your energy tonight.",
-    "Inspiration drifts like starlight, follow where it lands.",
-    "Your thoughts shimmer with potential.",
-    "Creation begins where silence ends."
   ]
 };
 
-// === Bright, high-contrast mobile color palette ===
+// === Stronger Color palette for moon by mood ===
 const moodColors = {
-  happy: ["#fff066", "#ff33b8"],      // bright lemon + hot pink
-  sad: ["#1a75ff", "#33ccff"],        // deep blue + cyan edge
-  angry: ["#ff0000", "#ffaa00"],      // red core + amber
-  anxious: ["#00ffff", "#0055ff"],    // neon cyan + vivid blue
-  unsure: ["#c266ff", "#ff80ff"],     // violet + magenta
-  love: ["#ff66aa", "#ff0033"],       // warm pink + bright red
-  hate: ["#990000", "#ff3300"],       // blood red + orange
-  fear: ["#3366ff", "#000099"],       // electric blue + dark royal
-  lonely: ["#7a5cff", "#330066"],     // lavender + indigo
-  reflective: ["#e6e9ff", "#a0c4ff"], // moon silver + sky blue
-  inspired: ["#33ffe0", "#cc00ff"],   // mint teal + neon violet
-  neutral: ["#d6d6ff", "#99e0ff"]     // soft moonlight base
+  happy: ["#ffb347", "#ff66c4"],     // warm amber + vivid pink
+  sad: ["#4f9dff", "#7c4dff"],       // deep blue + purple
+  angry: ["#ff4b4b", "#ff8c42"],     // intense red + fiery orange
+  anxious: ["#00e5ff", "#007bff"],   // bright cyan + electric blue
+  unsure: ["#b066ff", "#e86fff"],    // strong violet + magenta
+  neutral: ["#c6c6ff", "#a0d8ff"]    // brighter soft neutrals
 };
 
-// === Initial glow ===
+// === Initial soft moon glow ===
 moonEl.style.animation = "none";
-moonEl.style.boxShadow =
-  "0 0 120px rgba(255,255,255,0.8), 0 0 240px rgba(255,255,255,0.6)";
+moonEl.style.boxShadow = "0 0 60px rgba(255,255,255,0.4), 0 0 120px rgba(255,255,255,0.2)";
 moonEl.style.transition = "box-shadow 2s ease";
 
-// === Glow transition ===
-function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 5000) {
+// === Helper: Smoothly transition the moon glow ===
+function smoothGlowTransition(fromColors, toColors, intensity = 1) {
   let step = 0;
-  const steps = duration / 30;
+  const steps = 40;
   const [from1, from2] = fromColors;
   const [to1, to2] = toColors;
 
   const interval = setInterval(() => {
     step++;
     const blend = step / steps;
-
     const mix = (c1, c2) => {
-      const r = parseInt(c1.slice(1,3),16)*(1-blend)+parseInt(c2.slice(1,3),16)*blend;
-      const g = parseInt(c1.slice(3,5),16)*(1-blend)+parseInt(c2.slice(3,5),16)*blend;
-      const b = parseInt(c1.slice(5,7),16)*(1-blend)+parseInt(c2.slice(5,7),16)*blend;
-      return `rgb(${r},${g},${b})`;
+      const r = parseInt(c1.slice(1, 3), 16) * (1 - blend) + parseInt(c2.slice(1, 3), 16) * blend;
+      const g = parseInt(c1.slice(3, 5), 16) * (1 - blend) + parseInt(c2.slice(3, 5), 16) * blend;
+      const b = parseInt(c1.slice(5, 7), 16) * (1 - blend) + parseInt(c2.slice(5, 7), 16) * blend;
+      return `rgb(${r}, ${g}, ${b})`;
     };
 
-    const glow1 = mix(from1,to1);
-    const glow2 = mix(from2,to2);
-
-    const screenBoost = window.innerWidth < 768 ? 1.7 : 1;
-    const size = (130 + blend * 180 * intensity) * screenBoost;
+    const glow1 = mix(from1, to1);
+    const glow2 = mix(from2, to2);
+    const size = 90 + blend * 100 * intensity;
 
     moonEl.style.boxShadow = `
-      0 0 ${size}px rgba(255,255,255,0.3),
-      0 0 ${size * 1.2}px ${glow1},
+      0 0 ${size}px ${glow1},
       0 0 ${size * 1.8}px ${glow2}
     `;
 
     if (step >= steps) clearInterval(interval);
-  }, 30);
+  }, 40);
 }
 
-// === Mood dictionary ===
-const moods = {
-  happy: ["happy","joy","joyful","excited","grateful","smile","peaceful","great","content","delighted","cheerful","ecstatic","calm","radiant","serene","hopeful","playful","bright","satisfied","uplifted","thankful"],
-  sad: ["sad","down","lonely","hurt","cry","heartbroken","tired","blue","depressed","melancholy","weary","sorrow","pain","loss","defeated","tearful","aching","hopeless","heavy","empty"],
-  angry: ["angry","mad","furious","hate","annoyed","rage","frustrated","irritated","bitter","resentful","outraged","hostile","offended","boiling","snapping","displeased"],
-  anxious: ["anxious","nervous","worried","stressed","tense","panic","uneasy","fearful","overwhelmed","restless","jittery","doubtful","concerned","unsettled","fidgety","trembling"],
-  unsure: ["unsure","confused","lost","uncertain","iffy","hesitant","indecisive","mixed","puzzled","unclear","ambivalent","blurred","stuck"],
-  love: ["love","adore","cherish","affection","romance","heart","fond","devotion","care","admire","infatuated","compassion","intimacy","warm","longing","passion","softness"],
-  hate: ["hate","dislike","resent","anger","furious","disgust","detest","loathe","spiteful","enraged","vindictive","contempt","irate"],
-  fear: ["fear","afraid","terrified","scared","nervous","worried","shaken","uneasy","startled","timid","apprehensive","dread","horrified","spooked"],
-  lonely: ["alone","lonely","isolated","empty","abandoned","forgotten","secluded","disconnected","apart","quiet","detached","forsaken","invisible"],
-  reflective: ["thinking","remember","ponder","reflect","quiet","meditate","recall","nostalgic","consider","contemplate","wonder","daydream","evaluate","analyze"],
-  inspired: ["dream","hope","create","idea","inspire","motivated","driven","ambitious","curious","inventive","energized","aspire","vision","spark","innovate"]
-};
-
-// === Mood detection ===
+// === Smarter Mood Detection ===
 function detectMood(text) {
   const t = text.toLowerCase();
-  let counts = {};
-  for (const mood in moods)
-    counts[mood] = moods[mood].reduce((s,w)=>s+(t.includes(w)?1:0),0);
 
-  const strong = ["very","so","really","super","extremely","deeply","completely"];
-  const mild = ["a bit","slightly","kind of","somewhat","partly"];
+  const happyWords = [
+    "happy", "joy", "excited", "grateful", "calm", "peaceful", "smile", "loved",
+    "good", "great", "wonderful", "nice", "beautiful", "content", "thankful", "joyful", "pleasant"
+  ];
+  const sadWords = [
+    "sad", "down", "lonely", "cry", "hurt", "upset", "depressed", "empty",
+    "unhappy", "heartbroken", "bad", "pain", "tired", "exhausted"
+  ];
+  const angryWords = [
+    "angry", "mad", "furious", "irritated", "frustrated", "annoyed", "rage", "upset", "hate"
+  ];
+  const anxiousWords = [
+    "anxious", "nervous", "worried", "stressed", "uneasy", "tense", "panic", "afraid", "scared"
+  ];
+  const unsureWords = [
+    "unsure", "confused", "lost", "mixed", "uncertain", "don't know", "don’t know", "iffy"
+  ];
+
+  let counts = { happy: 0, sad: 0, angry: 0, anxious: 0, unsure: 0 };
+  for (const w of happyWords) if (t.includes(w)) counts.happy++;
+  for (const w of sadWords) if (t.includes(w)) counts.sad++;
+  for (const w of angryWords) if (t.includes(w)) counts.angry++;
+  for (const w of anxiousWords) if (t.includes(w)) counts.anxious++;
+  for (const w of unsureWords) if (t.includes(w)) counts.unsure++;
+
+  const strongIntensityWords = ["very", "so", "really", "super", "extremely"];
+  const mildIntensityWords = ["a bit", "slightly", "kind of", "somewhat"];
   let intensity = 1;
-  for (const w of strong) if (t.includes(w)) intensity = 1.6;
-  for (const w of mild) if (t.includes(w)) intensity = 0.8;
+  for (const w of strongIntensityWords) if (t.includes(w)) intensity = 1.4;
+  for (const w of mildIntensityWords) if (t.includes(w)) intensity = 0.7;
 
-  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  const [mood,score] = sorted[0];
-  return score===0?{mood:"neutral",intensity}:{mood,intensity};
+  const totalHits = Object.values(counts).reduce((a, b) => a + b, 0);
+  if (totalHits === 0) return { mood: "neutral", intensity };
+
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const [topEmotion, topScore] = sorted[0];
+  const [secondEmotion, secondScore] = sorted[1] || ["neutral", 0];
+  if (topScore >= secondScore * 1.5 || secondScore === 0) {
+    return { mood: topEmotion, intensity };
+  }
+
+  return { mood: "unsure", intensity };
 }
 
 // === Handle journal submission ===
@@ -205,25 +133,31 @@ btn.addEventListener('click', () => {
     return;
   }
 
-  const { mood:sentiment, intensity } = detectMood(entry);
+  const moodInfo = detectMood(entry);
+  const sentiment = moodInfo.mood || "neutral";
+  const intensity = moodInfo.intensity || 1;
+
   const toColors = moodColors[sentiment] || moodColors.neutral;
   const fromColors = ["#ffffff", "#ccccff"];
-  smoothGlowTransition(fromColors,toColors,intensity,6000);
+  smoothGlowTransition(fromColors, toColors, intensity);
 
   const msgs = responses[sentiment] || responses.unsure;
+  const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
+
   feedbackEl.classList.remove("show");
   void feedbackEl.offsetWidth;
-  feedbackEl.textContent = msgs[Math.floor(Math.random()*msgs.length)];
-  setTimeout(()=>feedbackEl.classList.add("show"),50);
+  feedbackEl.textContent = randomMsg;
+  setTimeout(() => feedbackEl.classList.add("show"), 50);
 
   entryEl.value = "";
 
-  setTimeout(()=>{
-    smoothGlowTransition(toColors,moodColors.neutral,0.9,10000);
-  },30000);
+  // 🌙 Fade back to neutral 15 seconds later
+  setTimeout(() => {
+    smoothGlowTransition(toColors, moodColors.neutral, 0.8);
+  }, 15000);
 });
 
-// === Starfield ===
+// === Dynamic starfield with twinkling + shooting stars ===
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [], shootingStars = [];
@@ -237,7 +171,7 @@ function resize() {
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 }
 
-function rand(min,max){return Math.random()*(max-min)+min;}
+function rand(min, max) { return Math.random() * (max - min) + min; }
 
 function makeStars() {
   stars = [];
@@ -257,17 +191,19 @@ function draw() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   const t = performance.now() / 1000;
 
+  // Twinkling stars
   for (const s of stars) {
     const flicker = 0.5 + 0.5 * Math.sin(t * s.twinkleSpeed + s.x);
     const alpha = s.baseAlpha * flicker;
     ctx.beginPath();
     ctx.fillStyle = `hsla(${s.hue}, 100%, 85%, ${alpha})`;
-    ctx.shadowColor = `hsla(${s.hue}, 100%, 75%, ${alpha * 2})`;
-    ctx.shadowBlur = 20 + 10 * Math.sin(t * 3 + s.x);
+    ctx.shadowColor = `hsla(${s.hue}, 100%, 75%, ${alpha * 1.8})`;
+    ctx.shadowBlur = 12 + 8 * Math.sin(t * 3 + s.x);
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fill();
   }
 
+  // Shooting stars
   if (Math.random() < SHOOT_CHANCE) {
     shootingStars.push({
       x: rand(0, innerWidth),
@@ -297,6 +233,7 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
+// === Resize & orientation fixes ===
 window.addEventListener('resize', () => { resize(); makeStars(); });
 window.addEventListener('orientationchange', () => {
   setTimeout(() => { resize(); makeStars(); }, 500);
