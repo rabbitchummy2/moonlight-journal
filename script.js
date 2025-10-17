@@ -3,7 +3,6 @@ const moonEl = document.getElementById('moon');
 const feedbackEl = document.getElementById('feedback');
 const btn = document.getElementById('submit');
 
-// === Emotion-based responses ===
 const responses = {
   happy: [
     "The moon smiles with you tonight :)",
@@ -108,7 +107,6 @@ const responses = {
   ]
 };
 
-// === High-contrast unified color palette ===
 const moodColors = {
   happy: ["#ffe066", "#ff33b8"],
   sad: ["#0047ff", "#0088ff"],
@@ -124,19 +122,16 @@ const moodColors = {
   neutral: ["#d6d6ff", "#99e0ff"]
 };
 
-// === Mobile adaptive boost ===
 const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-const glowBoost = isMobile ? 1.8 : 1.0; // Increase brightness on iOS/Android
+const glowBoost = isMobile ? 1.8 : 1.0;
 const alphaBoost = isMobile ? 1.3 : 1.0;
 
-// === Initial glow ===
 moonEl.style.animation = "none";
 moonEl.style.boxShadow =
   `0 0 ${120 * glowBoost}px rgba(255,255,255,${0.8 * alphaBoost}),
    0 0 ${240 * glowBoost}px rgba(255,255,255,${0.6 * alphaBoost})`;
 moonEl.style.transition = "box-shadow 2s ease";
 
-// === Glow transition ===
 function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 5000) {
   let step = 0;
   const steps = duration / 30;
@@ -168,7 +163,6 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 50
   }, 30);
 }
 
-// === Mood word lists ===
 const moods = {
   happy: ["happy","joy","joyful","excited","grateful","smile","peaceful","great","content","delighted","cheerful","ecstatic","calm","radiant","serene","hopeful","playful","bright","satisfied","uplifted","thankful"],
   sad: ["sad","down","lonely","hurt","cry","heartbroken","tired","blue","depressed","melancholy","weary","sorrow","pain","loss","defeated","tearful","aching","hopeless","heavy","empty"],
@@ -183,7 +177,6 @@ const moods = {
   inspired: ["dream","hope","create","idea","inspire","motivated","driven","ambitious","curious","inventive","energized","aspire","vision","spark","innovate"]
 };
 
-// === Mood detection ===
 function detectMood(text) {
   const t = text.toLowerCase();
   let counts = {};
@@ -201,7 +194,6 @@ function detectMood(text) {
   return score===0?{mood:"neutral",intensity}:{mood,intensity};
 }
 
-// === Handle journal submission ===
 btn.addEventListener('click', () => {
   const entry = entryEl.value.trim();
   if (!entry) {
@@ -227,11 +219,10 @@ btn.addEventListener('click', () => {
   },30000);
 });
 
-// === Starfield ===
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [], shootingStars = [];
-const STAR_COUNT = isMobile ? 180 : 250; // fewer on mobile for perf but larger glow
+const STAR_COUNT = isMobile ? 180 : 250;
 const SHOOT_CHANCE = 0.008;
 const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
