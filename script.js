@@ -212,7 +212,7 @@ btn.addEventListener('click', () => {
   const { mood:sentiment, intensity } = detectMood(entry);
   const toColors = moodColors[sentiment] || moodColors.neutral;
   const fromColors = ["#ffffff", "#ccccff"];
-  smoothGlowTransition(fromColors,toColors,intensity,6000);
+  smoothGlowTransition(fromColors,toColors,intensity,3000);
 
   const msgs = responses[sentiment] || responses.unsure;
   feedbackEl.classList.remove("show");
