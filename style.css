@@ -15,11 +15,10 @@ body {
   background: radial-gradient(ellipse at bottom, var(--bg1) 0%, var(--bg2) 90%);
   overflow: hidden;
   position: relative;
-  background-attachment: fixed; /* ✅ keeps stars still during keyboard zoom */
+  background-attachment: fixed;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* --- Stars Canvas --- */
 #stars {
   position: fixed;
   inset: 0;
@@ -29,7 +28,6 @@ body {
   pointer-events: none;
 }
 
-/* --- Main Container --- */
 .wrap {
   position: relative;
   z-index: 1;
@@ -40,7 +38,6 @@ body {
   margin-top: min(14vh, 120px);
 }
 
-/* --- The Moon --- */
 #moon {
   width: 180px;
   height: 180px;
@@ -62,7 +59,6 @@ body {
   100% { box-shadow: 0 0 110px #d0b4ff, 0 0 210px #e0d0ff; }
 }
 
-/* --- Title & Subtitle --- */
 .title {
   margin: 8px 0 4px 0;
   font-size: 33px;
@@ -75,7 +71,6 @@ body {
   font-size: 16px;
 }
 
-/* --- Journal Text Box --- */
 textarea {
   width: 64%;
   height: 44px;
@@ -86,7 +81,7 @@ textarea {
   color: var(--fg);
   resize: none;
   outline: none;
-  font-size: 16px; /* ✅ prevents iPhone auto-zoom */
+  font-size: 16px;
   font-family: "Poppins", system-ui;
   text-align: center;
   line-height: 1.4;
@@ -100,7 +95,6 @@ textarea {
     transform 0.3s ease;
 }
 
-/* --- Focus Effect --- */
 textarea:focus {
   background: radial-gradient(circle at 30% 30%, #0f1f35, #0c1830 75%);
   box-shadow:
@@ -110,7 +104,6 @@ textarea:focus {
   transform: scale(1.03);
 }
 
-/* --- Placeholder --- */
 textarea::placeholder {
   color: #a3b6d7;
   font-style: italic;
@@ -122,7 +115,6 @@ textarea::placeholder {
   top: 1px;
 }
 
-/* --- Submit Button --- */
 .btn-wrap { margin-top: 18px; }
 
 button {
@@ -151,7 +143,6 @@ button:hover {
     0 0 40px rgba(190, 160, 255, 0.25);
 }
 
-/* --- Feedback Message --- */
 .muted {
   color: var(--muted);
   font-size: 14px;
@@ -159,7 +150,6 @@ button:hover {
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
 }
 
-/* --- ⚡ Faster Fade Animation --- */
 #feedback {
   opacity: 0;
   transition: opacity 0.7s ease, text-shadow 0.7s ease;
@@ -171,7 +161,6 @@ button:hover {
   text-shadow: 0 0 10px rgba(255,255,255,0.35);
 }
 
-/* --- 📱 MOBILE OPTIMIZATION --- */
 @media (max-width: 600px) {
   html, body {
     overflow: hidden;
@@ -202,7 +191,7 @@ button:hover {
   textarea {
     width: 85%;
     height: 38px;
-    font-size: 16px; /* ✅ fix for iOS keyboard zoom */
+    font-size: 16px;
     padding: 6px 10px;
     border-radius: 12px;
   }
@@ -217,8 +206,9 @@ button:hover {
   #feedback {
     font-size: 14px;
     margin-top: 10px;
-    transition: opacity 0.6s ease, text-shadow 0.6s ease; /* ⚡ faster on mobile */
+    transition: opacity 0.6s ease, text-shadow 0.6s ease;
   }
 }
+
 
 
