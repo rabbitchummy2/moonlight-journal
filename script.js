@@ -1,4 +1,4 @@
-const entryEl = document.getElementById('entry');
+const entryEl = document.getElementById('entry'); 
 const moonEl = document.getElementById('moon');
 const feedbackEl = document.getElementById('feedback');
 const btn = document.getElementById('submit');
@@ -13,7 +13,7 @@ const responses = {
   sad: [
     "Everything will be alright, the moon’s still here for you 💙",
     "Even the stars rest on cloudy nights 🌧",
-    "your heart will find calm again 💫",
+    "Your heart will find calm again 💫",
   ],
   angry: [
     "Let the night cool your fire 🔥",
@@ -32,19 +32,19 @@ const responses = {
   ]
 };
 
-// === Color palette for moon by mood ===
+// === Stronger Color palette for moon by mood ===
 const moodColors = {
-  happy: ["#ffd9a0", "#ffb6e6"],
-  sad: ["#93c5fd", "#c4b5fd"],
-  angry: ["#ff7b7b", "#ffb480"],
-  anxious: ["#a0f0ff", "#7dd3fc"],
-  unsure: ["#d8b4fe", "#f0abfc"],
-  neutral: ["#d0d0ff", "#b9e1ff"]
+  happy: ["#ffb347", "#ff66c4"],     // warm amber + vivid pink
+  sad: ["#4f9dff", "#7c4dff"],       // deep blue + purple
+  angry: ["#ff4b4b", "#ff8c42"],     // intense red + fiery orange
+  anxious: ["#00e5ff", "#007bff"],   // bright cyan + electric blue
+  unsure: ["#b066ff", "#e86fff"],    // strong violet + magenta
+  neutral: ["#c6c6ff", "#a0d8ff"]    // brighter soft neutrals
 };
 
 // === Initial soft moon glow ===
 moonEl.style.animation = "none";
-moonEl.style.boxShadow = "0 0 60px rgba(255,255,255,0.3), 0 0 100px rgba(255,255,255,0.15)";
+moonEl.style.boxShadow = "0 0 60px rgba(255,255,255,0.4), 0 0 120px rgba(255,255,255,0.2)";
 moonEl.style.transition = "box-shadow 2s ease";
 
 // === Helper: Smoothly transition the moon glow ===
@@ -66,7 +66,7 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1) {
 
     const glow1 = mix(from1, to1);
     const glow2 = mix(from2, to2);
-    const size = 80 + blend * 80 * intensity;
+    const size = 90 + blend * 100 * intensity;
 
     moonEl.style.boxShadow = `
       0 0 ${size}px ${glow1},
@@ -242,6 +242,5 @@ window.addEventListener('orientationchange', () => {
 resize();
 makeStars();
 draw();
-
 
 
