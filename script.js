@@ -108,20 +108,20 @@ const responses = {
   ]
 };
 
-// === Enhanced, high-contrast mood palette (distinct glows) ===
+// === High-contrast unified color palette ===
 const moodColors = {
-  happy: ["#fff44f", "#ff61d8"],       // sunshine yellow + magenta
-  sad: ["#0059ff", "#00bfff"],         // deep ocean blue + sky blue
-  angry: ["#ff2400", "#ff7f11"],       // crimson red + molten orange
-  anxious: ["#00fff7", "#007bff"],     // neon cyan + electric blue
-  unsure: ["#c471ed", "#f7797d"],      // violet + pink-orange gradient
-  love: ["#ff66cc", "#ff3366"],        // rose pink + cherry red
-  hate: ["#990000", "#ff4b2b"],        // dark maroon + vivid orange-red
-  fear: ["#4a00e0", "#8e2de2"],        // indigo + purple core
-  lonely: ["#6a00ff", "#120078"],      // deep violet + midnight blue
-  reflective: ["#89f7fe", "#66a6ff"],  // soft teal + cool blue
-  inspired: ["#00ffcc", "#b300ff"],    // mint green + neon purple
-  neutral: ["#d8e3ff", "#9be7ff"]      // soft moonlight blue
+  happy: ["#ffe066", "#ff33b8"],      // bright gold + hot pink
+  sad: ["#0047ff", "#0088ff"],        // deeper glowing blue
+  angry: ["#ff0000", "#ff8000"],      // red + orange
+  anxious: ["#00ffff", "#0077ff"],    // neon cyan + electric blue
+  unsure: ["#c266ff", "#ff80ff"],     // violet + magenta
+  love: ["#ff4da6", "#ff0055"],       // romantic pink + deep red
+  hate: ["#800000", "#ff3300"],       // dark red + orange-red
+  fear: ["#224aff", "#001060"],       // strong electric blue core
+  lonely: ["#8266ff", "#2a0066"],     // purple-indigo mix
+  reflective: ["#a8caff", "#6f9cff"], // moonlit blue
+  inspired: ["#33ffe0", "#b300ff"],   // teal + neon violet
+  neutral: ["#d6d6ff", "#99e0ff"]     // calm soft base
 };
 
 // === Initial glow ===
@@ -153,7 +153,7 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 50
     const size = 130 + blend * 180 * intensity;
 
     moonEl.style.boxShadow = `
-      0 0 ${size}px rgba(255,255,255,0.25),
+      0 0 ${size}px rgba(255,255,255,0.3),
       0 0 ${size * 1.2}px ${glow1},
       0 0 ${size * 1.8}px ${glow2}
     `;
@@ -205,7 +205,7 @@ btn.addEventListener('click', () => {
 
   const { mood:sentiment, intensity } = detectMood(entry);
   const toColors = moodColors[sentiment] || moodColors.neutral;
-  const fromColors = ["#222244", "#6666ff"];
+  const fromColors = ["#ffffff", "#ccccff"];
   smoothGlowTransition(fromColors,toColors,intensity,6000);
 
   const msgs = responses[sentiment] || responses.unsure;
