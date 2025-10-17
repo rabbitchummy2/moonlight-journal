@@ -38,7 +38,7 @@ const responses = {
     "Relax, the moon’s holding you 🌙",
     "You can rest here for a while",
     "The night is patient, so you can be too",
-    "Breathe; even the stars shimmer when they’re unsure.",
+    "Breathe, even the stars shimmer when they’re unsure.",
     "You don’t have to hold everything together right now.",
     "The stillness doesn’t demand anything from you.",
     "Even the moon wanes and waxes—it’s okay to shift."
@@ -82,7 +82,7 @@ const responses = {
   lonely: [
     "The moon knows loneliness well.",
     "Even when you’re alone, you are seen.",
-    "The silence of the night is not empty—it’s listening.",
+    "The silence of the night is not empty; it’s listening.",
     "Someone, somewhere, is looking at this same moon.",
     "You’re never truly alone beneath this sky.",
     "The night keeps company in its own quiet way.",
@@ -102,31 +102,31 @@ const responses = {
     "The moonlight sharpens dreams once blurry.",
     "You carry ideas even the stars wonder at.",
     "The universe hums with your energy tonight.",
-    "Inspiration drifts like starlight—follow where it lands.",
+    "Inspiration drifts like starlight, follow where it lands.",
     "Your thoughts shimmer with potential.",
     "Creation begins where silence ends."
   ]
 };
 
-// === Stronger, longer-lasting color palette ===
+// === Stronger, brighter, and more distinct color palette ===
 const moodColors = {
-  happy: ["#ffcf33", "#ff66c4"],     // radiant gold + bright pink
-  sad: ["#2f6eff", "#7c4dff"],       // deep ocean + indigo
+  happy: ["#ffe066", "#ff66c4"],     // radiant gold + vivid pink
+  sad: ["#0033cc", "#000066"],       // deep navy blue + midnight blue (darker, melancholic)
   angry: ["#ff3333", "#ff8c00"],     // intense red + orange glow
-  anxious: ["#00d4ff", "#0066ff"],   // turquoise + deep blue
+  anxious: ["#00e5ff", "#0044ff"],   // bright cyan + strong electric blue
   unsure: ["#b066ff", "#ff80ff"],    // violet + rose
   love: ["#ff4081", "#ff1744"],      // vivid pink + romantic red
-  hate: ["#7a0000", "#ff4500"],      // dark maroon + ember orange
-  fear: ["#304ffe", "#1a237e"],      // twilight blue + navy
-  lonely: ["#6a5acd", "#4b0082"],    // lavender + indigo
-  reflective: ["#e0e0e0", "#9eb6ff"],// moon silver + pale blue
-  inspired: ["#00ffcc", "#cc00ff"],  // mint teal + neon violet
-  neutral: ["#c6c6ff", "#a0d8ff"]    // gentle moonlight base
+  hate: ["#660000", "#ff3300"],      // dark crimson + fiery orange
+  fear: ["#2233ff", "#000044"],      // twilight blue + near-black
+  lonely: ["#5a4bcc", "#2a0055"],    // lavender + deep indigo
+  reflective: ["#d1d1ff", "#a0b8ff"],// soft white-blue + icy blue
+  inspired: ["#00ffcc", "#9900ff"],  // neon mint + purple glow
+  neutral: ["#d0d0ff", "#a0e4ff"]    // gentle moonlight base
 };
 
 // === Initial soft moon glow ===
 moonEl.style.animation = "none";
-moonEl.style.boxShadow = "0 0 60px rgba(255,255,255,0.4), 0 0 120px rgba(255,255,255,0.2)";
+moonEl.style.boxShadow = "0 0 90px rgba(255,255,255,0.6), 0 0 160px rgba(255,255,255,0.4)";
 moonEl.style.transition = "box-shadow 2s ease";
 
 // === Helper: Smoothly transition the moon glow ===
@@ -148,7 +148,7 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 50
 
     const glow1 = mix(from1, to1);
     const glow2 = mix(from2, to2);
-    const size = 90 + blend * 120 * intensity;
+    const size = 120 + blend * 160 * intensity; // larger for more brightness on mobile
 
     moonEl.style.boxShadow = `
       0 0 ${size}px ${glow1},
@@ -159,7 +159,7 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 50
   }, 40);
 }
 
-// === Expanded mood dictionary ===
+// === Expanded mood dictionary (unchanged) ===
 const moods = {
   happy: ["happy", "joy", "joyful", "excited", "grateful", "smile", "peaceful", "great", "content", "delighted", "cheerful", "ecstatic", "calm", "radiant", "serene", "hopeful", "playful", "bright", "satisfied", "uplifted", "thankful"],
   sad: ["sad", "down", "lonely", "hurt", "cry", "heartbroken", "tired", "blue", "depressed", "melancholy", "weary", "sorrow", "pain", "loss", "defeated", "tearful", "aching", "hopeless", "heavy", "empty"],
@@ -208,7 +208,7 @@ btn.addEventListener('click', () => {
 
   const toColors = moodColors[sentiment] || moodColors.neutral;
   const fromColors = ["#ffffff", "#ccccff"];
-  smoothGlowTransition(fromColors, toColors, intensity, 6000);
+  smoothGlowTransition(fromColors, toColors, intensity, 7000);
 
   const msgs = responses[sentiment] || responses.unsure;
   const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
@@ -222,11 +222,11 @@ btn.addEventListener('click', () => {
 
   // 🌙 Fade back to neutral 30 seconds later with a slow dim
   setTimeout(() => {
-    smoothGlowTransition(toColors, moodColors.neutral, 0.6, 7000);
+    smoothGlowTransition(toColors, moodColors.neutral, 0.8, 9000);
   }, 30000);
 });
 
-// === Dynamic starfield with twinkling + shooting stars ===
+// === Dynamic starfield ===
 const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 let stars = [], shootingStars = [];
@@ -265,8 +265,8 @@ function draw() {
     const alpha = s.baseAlpha * flicker;
     ctx.beginPath();
     ctx.fillStyle = `hsla(${s.hue}, 100%, 85%, ${alpha})`;
-    ctx.shadowColor = `hsla(${s.hue}, 100%, 75%, ${alpha * 1.8})`;
-    ctx.shadowBlur = 12 + 8 * Math.sin(t * 3 + s.x);
+    ctx.shadowColor = `hsla(${s.hue}, 100%, 75%, ${alpha * 2})`;
+    ctx.shadowBlur = 18 + 10 * Math.sin(t * 3 + s.x);
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fill();
   }
@@ -300,7 +300,6 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-// === Resize & orientation fixes ===
 window.addEventListener('resize', () => { resize(); makeStars(); });
 window.addEventListener('orientationchange', () => {
   setTimeout(() => { resize(); makeStars(); }, 500);
@@ -309,5 +308,6 @@ window.addEventListener('orientationchange', () => {
 resize();
 makeStars();
 draw();
+
 
 
