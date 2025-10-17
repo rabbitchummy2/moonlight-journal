@@ -6,29 +6,29 @@ const btn = document.getElementById('submit');
 // === Emotion-based responses ===
 const responses = {
   happy: [
-    "the moon smiles with you tonight :)",
-    "your light makes the stars jealous ✨",
-    "the moon glows brighter because of you 🌙",
+    "The moon smiles with you tonight :)",
+    "Your light makes the stars jealous ✨",
+    "The moon glows brighter because of you 🌙",
   ],
   sad: [
-    "everything will be alright, the moon’s still here for you 💙",
-    "even the stars rest on cloudy nights 🌧",
+    "Everything will be alright, the moon’s still here for you 💙",
+    "Even the stars rest on cloudy nights 🌧",
     "your heart will find calm again 💫",
   ],
   angry: [
-    "let the night cool your fire 🔥",
-    "the moon’s soft light forgives every storm",
-    "you’re safe to let it go now 💨",
+    "Let the night cool your fire 🔥",
+    "The moon’s soft light forgives every storm",
+    "You’re safe to let it go now 💨",
   ],
   anxious: [
-    "relax, the moon’s holding you 🌙",
-    "you can rest here for a while",
-    "the night is patient, so you can be too",
+    "Relax, the moon’s holding you 🌙",
+    "You can rest here for a while",
+    "The night is patient, so you can be too",
   ],
   unsure: [
-    "you’re doing better than you think 💫",
-    "trust your heart, it knows more than fear 🌙",
-    "the moon believes in you",
+    "You’re doing better than you think 💫",
+    "Trust your heart, it knows more than fear 🌙",
+    "The moon believes in you",
   ]
 };
 
