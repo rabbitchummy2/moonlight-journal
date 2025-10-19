@@ -153,6 +153,9 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 50
     const glow2 = mix(from2,to2);
     const size = (130 + blend * 180 * intensity) * glowBoost;
 
+    moonEl.style.transform = `translateZ(0) scale(${1 + 0.0002 * Math.sin(step)})`;
+    moonEl.offsetHeight;
+
     moonEl.style.boxShadow = `
       0 0 ${size}px rgba(255,255,255,${0.3 * alphaBoost}),
       0 0 ${size * 1.2}px ${glow1},
