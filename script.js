@@ -132,7 +132,7 @@ moonEl.style.boxShadow =
    0 0 ${240 * glowBoost}px rgba(255,255,255,${0.6 * alphaBoost})`;
 moonEl.style.transition = "box-shadow 2s ease";
 
-function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 5000) {
+function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 1500) {
   let step = 0;
   const steps = duration / 30;
   const [from1, from2] = fromColors;
@@ -204,7 +204,7 @@ btn.addEventListener('click', () => {
   const { mood:sentiment, intensity } = detectMood(entry);
   const toColors = moodColors[sentiment] || moodColors.neutral;
   const fromColors = ["#ffffff", "#ccccff"];
-  smoothGlowTransition(fromColors,toColors,intensity,3000);
+  smoothGlowTransition(fromColors,toColors,intensity,1500);
 
   const msgs = responses[sentiment] || responses.unsure;
   feedbackEl.classList.remove("show");
@@ -215,7 +215,7 @@ btn.addEventListener('click', () => {
   entryEl.value = "";
 
   setTimeout(()=>{
-    smoothGlowTransition(toColors,moodColors.neutral,0.9,10000);
+    smoothGlowTransition(toColors,moodColors.neutral,0.9,6000);
   },30000);
 });
 
@@ -300,6 +300,5 @@ window.addEventListener('orientationchange', () => {
 resize();
 makeStars();
 draw();
-
 
 
