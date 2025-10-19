@@ -138,20 +138,27 @@ function smoothGlowTransition(fromColors, toColors, intensity = 1, duration = 50
   const [from1, from2] = fromColors;
   const [to1, to2] = toColors;
 
-  const mix = (c1, c2, blend) => {
-    const r = parseInt(c1.slice(1,3),16)*(1-blend)+parseInt(c2.slice(1,3),16)*blend;
-    const g = parseInt(c1.slice(3,5),16)*(1-blend)+parseInt(c2.slice(3,5),16)*blend;
-    const b = parseInt(c1.slice(5,7),16)*(1-blend)+parseInt(c2.slice(5,7),16)*blend;
-    return `rgb(${r},${g},${b})`;
-  };
-
   const interval = setInterval(() => {
     step++;
     const blend = step / steps;
-    const glow1 = mix(from1,to1,blend);
-    const glow2 = mix(from2,to2,blend);
-    moonEl.style.setProperty("--glow1", glow1);
-    moonEl.style.setProperty("--glow2", glow2);
+
+    const mix = (c1, c2) => {
+      const r = parseInt(c1.slice(1,3),16)*(1-blend)+parseInt(c2.slice(1,3),16)*blend;
+      const g = parseInt(c1.slice(3,5),16)*(1-blend)+parseInt(c2.slice(3,5),16)*blend;
+      const b = parseInt(c1.slice(5,7),16)*(1-blend)+parseInt(c2.slice(5,7),16)*blend;
+      return `rgb(${r},${g},${b})`;
+    };
+
+    const glow1 = mix(from1,to1);
+    const glow2 = mix(from2,to2);
+    const size = (130 + blend * 180 * intensity) * glowBoost;
+
+    moonEl.style.boxShadow = `
+      0 0 ${size}px rgba(255,255,255,${0.3 * alphaBoost}),
+      0 0 ${size * 1.2}px ${glow1},
+      0 0 ${size * 1.8}px ${glow2}
+    `;
+
     if (step >= steps) clearInterval(interval);
   }, 30);
 }
