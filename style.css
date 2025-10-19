@@ -3,6 +3,8 @@
   --bg2: #000000;
   --fg: #f1f6ff;
   --muted: #a6b4c7;
+  --glow1: #ffffff;
+  --glow2: #ccccff;
 }
 
 * { box-sizing: border-box; }
@@ -43,24 +45,33 @@ body {
   height: 180px;
   border-radius: 50%;
   margin: 0 auto 20px auto;
+  position: relative;
   background: radial-gradient(circle at 30% 30%, #fff 60%, #d0d0ff 100%);
-  box-shadow:
-    0 0 100px rgba(255, 220, 255, 0.8),
-    0 0 200px rgba(200, 220, 255, 0.6);
-  animation: moonShift 16s ease-in-out infinite alternate;
-  transition: box-shadow 1s ease;
-  will-change: box-shadow, transform;
+  transition: filter 1s ease, transform 0.4s ease;
+  will-change: filter, transform;
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
 
+#moon::after {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--glow1), var(--glow2));
+  filter: blur(60px);
+  opacity: 0.9;
+  transition: background 2s ease, filter 1s ease, opacity 1s ease;
+  z-index: -1;
+}
+
 @keyframes moonShift {
-  0%   { box-shadow: 0 0 80px #b9e1ff, 0 0 160px #9dbaff; }
-  25%  { box-shadow: 0 0 100px #ffd0e7, 0 0 200px #ffb4c8; }
-  50%  { box-shadow: 0 0 90px #ffebaf, 0 0 190px #ffe5b4; }
-  75%  { box-shadow: 0 0 100px #b4fff3, 0 0 200px #99dfff; }
-  100% { box-shadow: 0 0 110px #d0b4ff, 0 0 210px #e0d0ff; }
+  0% { filter: hue-rotate(0deg); }
+  25% { filter: hue-rotate(40deg); }
+  50% { filter: hue-rotate(80deg); }
+  75% { filter: hue-rotate(160deg); }
+  100% { filter: hue-rotate(240deg); }
 }
 
 .title {
@@ -183,14 +194,16 @@ button:hover {
     width: 130px;
     height: 130px;
     margin-bottom: 16px;
-    box-shadow:
-      0 0 80px rgba(255, 255, 255, 0.7),
-      0 0 160px rgba(200, 220, 255, 0.5);
-    transition: box-shadow 0.7s ease;
-    will-change: box-shadow, transform;
+    transition: filter 1s ease, transform 0.4s ease;
+    will-change: filter, transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
+  }
+
+  #moon::after {
+    inset: -30px;
+    filter: blur(45px);
   }
 
   .title { font-size: 26px; }
